@@ -113,7 +113,7 @@
         let clearStorage = () => {
             localStorage.removeItem('navigator');
             localStorage.removeItem('etiqueta');
-
+            document.location.reload(true);
         }
 
         return {
