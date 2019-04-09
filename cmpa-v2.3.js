@@ -344,7 +344,7 @@
 
                     // se os rows tem a mesma informação a nota é a mesma
                     if (lastScrapedInfo != {} && compareRows(lastScrapedInfo, firstScrapInfo)) {
-                        scrapedItem = await Object.assign(firstScrapInfo, firstScrapInfo);
+                        scrapedItem = await Object.assign(lastScrapedInfo, firstScrapInfo);
 
                     } else {
                         // Faz a requisição da tela inventario
