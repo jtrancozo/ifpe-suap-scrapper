@@ -25,7 +25,7 @@ Para carregar o script adicione o seguinte código ao Tampermokey
         document.head.appendChild(loader);
     }
 
-    loadJs('http://jonathansilva.com.br/lab/ifpe/cmpa-latest.js');
+    loadJs('https://raw.githubusercontent.com/jonathantsilva/ifpe-suap-scrapper/master/cmpa-latest.js');
 
 })();
 ```
