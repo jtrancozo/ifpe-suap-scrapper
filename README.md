@@ -9,7 +9,7 @@ Para carregar o script adicione o seguinte código ao Tampermokey
 // ==UserScript==
 // @name         CMPA Etiqueta
 // @namespace    http://tampermonkey.net/
-// @version      2.3
+// @version      2.31
 // @description  try to take over the world!
 // @author       Jonathan Trancozo - IFPE Ipojuca
 // @match        https://suap.ifpe.edu.br/patrimonio/inventario_busca*
@@ -19,13 +19,18 @@ Para carregar o script adicione o seguinte código ao Tampermokey
 (function() {
     'use strict';
 
-    function loadJs(filename){
-        let loader=document.createElement('script');
-        loader.src = filename;
+    let loadScript = (data) => {
+        let loader = document.createElement('script');
+        loader.setAttribute('type', 'text/javascript');
+        loader.textContent = data;
         document.head.appendChild(loader);
     }
 
-    loadJs('https://raw.githubusercontent.com/jonathantsilva/ifpe-suap-scrapper/master/cmpa-latest.js');
+    fetch('https://raw.githubusercontent.com/jonathantsilva/ifpe-suap-scrapper/master/cmpa-latest.js')
+    .then((response) => response.text())
+    .then((data) => {
+        loadScript(data)
+    });
 
 })();
 ```
