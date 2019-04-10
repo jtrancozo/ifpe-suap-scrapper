@@ -9,7 +9,7 @@ Para carregar o script adicione o seguinte código ao Tampermokey
 // ==UserScript==
 // @name         CMPA Etiqueta
 // @namespace    http://tampermonkey.net/
-// @version      2.31
+// @version      2.32
 // @description  try to take over the world!
 // @author       Jonathan Trancozo - IFPE Ipojuca
 // @match        https://suap.ifpe.edu.br/patrimonio/inventario_busca*
