@@ -202,7 +202,7 @@
         const blob = '\ufeff';
         const csv = convertJsonToCsv(arr, ';')
         const csvAsBlob = new Blob([blob + csv], {type: 'text/plain'});
-        const fileName = 'tabela-ctma.csv';
+        const fileName = 'tabela.csv';
 
         saveAs(csvAsBlob, fileName)
 
@@ -240,6 +240,8 @@
         let dataCarga = line.querySelector('td:nth-child(10)').innerText;
         let fornecedor = line.querySelector('td:nth-child(11)').innerText;
         let valor = line.querySelector('td:nth-child(12)').innerText;
+
+        let empty = 'Não disponível';
 
         return {numero, ed, descricao, cargaAtual, cargaContabil, sala, rotulos, dataEntrada, dataCarga, fornecedor, valor};
     }
@@ -318,14 +320,14 @@
         let lastScrapedInfo = {};
 
         let loop = () => {
-            // let i = trsLen;
             let i = pauseNumber;
 
             if (i > 1) {
                 new Promise(async (resolve, reject) => {
                     console.log('inicio ', i);
+
                     let url = $trs[i].children[1].children[0].href;
-                    let scrapedItem;
+                    let scrapedItem = {};
 
                     $trs[i].classList.add('scanning');
 
@@ -334,32 +336,33 @@
 
                     // se os rows tem a mesma informação a nota é a mesma
                     if (lastScrapedInfo != {} && compareRows(lastScrapedInfo, firstScrapInfo)) {
-                        scrapedItem = await Object.assign(lastScrapedInfo, firstScrapInfo);
-
+                        let last = Object.assign({}, lastScrapedInfo);
+                        scrapedItem = Object.assign(last, firstScrapInfo);
                     } else {
                         // Faz a requisição da tela inventario
                         let detailsInfo = await openInventory(url)
                         .then((url) => openDetails(url, resolve))
 
-                        scrapedItem = await Object.assign(firstScrapInfo, detailsInfo);
+                        scrapedItem = Object.assign(firstScrapInfo, detailsInfo);
                     }
 
                     lastScrapedInfo = scrapedItem;
-
-                    console.log('last scraped info:', lastScrapedInfo, scrapedItem)
-
-                    await saveItem(scrapedItem)
-                    await setTimeout( () => {}, 350);
-                    await resolve();
+                    saveItem(scrapedItem)
 
                     if (i <= 2) {
                         _navigator.setPage(pageActive - 1)
                         _navigator.setLastItem(0)
                         previousPage()
                     }
-                    console.log('fim', pauseNumber )
-                    pauseNumber = pauseNumber - 1
+
+                    console.log('fim', pauseNumber)
+
+                    pauseNumber = pauseNumber - 1;
                     $trs[i].classList.remove('scanning');
+
+                    await setTimeout( () => {}, 350);
+
+                    await resolve();
 
                 }).then(loop.bind(null, 1));
             }
@@ -410,5 +413,3 @@
     init()
 
 })();
-
-
