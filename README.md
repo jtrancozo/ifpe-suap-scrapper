@@ -4,7 +4,7 @@ Javascript scrapper do inventário para gerar a tabela com os tombos e nota fisc
 Essa ferramenta roda direto no browser com o uso da extensão Tampermonkey e navegador Chrome.
 
 ## Loader
-Para carregar o script adicione o seguinte código ao Tampermokey
+Para carregar o script adicione o seguinte código ao Tampermonkey
 ```
 // ==UserScript==
 // @name         CMPA Etiqueta
