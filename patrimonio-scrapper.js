@@ -85,11 +85,6 @@
 // Etiqueta
     let storage = JSON.parse(localStorage.getItem('etiqueta'));
 
-    /* let saveItem = (item) => {
-        storage.push(item);
-        localStorage.setItem('etiqueta', JSON.stringify(storage));
-    } */
-
     let saveItem = (item) => {
         if (Array.isArray(item)) {
             storage = [].concat(storage,item);
@@ -151,8 +146,6 @@
     }
 
     let _navigator = navigator();
-// navigator
-
 
     // convert json to csv
     // recebe json e separator (json, '|')
@@ -242,33 +235,16 @@
         let arr = filterDuplicatedObjectInArray(etiquetas,'numero');
 
         const blob = '\ufeff';
-        // const csv = convertJsonToCsv(arr, ';');
-
         let planilha = {planilha: arr};
         const csv = JSON.stringify(planilha);
-
         const csvAsBlob = new Blob([blob + csv], {type: 'text/plain'});
-        // # const fileName = 'tabela.csv';
         const fileName = 'tabela.json';
 
         saveAs(csvAsBlob, fileName)
-
-        //console.log(unique(arr))
     }
 
     window.localStorageToFile = localStorageToFile;
 // export CSV
-
-    /* let unique = (arr) => {
-        // array of objects
-        return Object.values(arr.reduce((acc, el) => {
-            let key = el.numero;
-            let b = {};
-            b[key] = el;
-
-            return Object.assign(acc, b);
-        }, {}))
-    } */
 
     let unique = (arr) => {
         // array of objects
@@ -283,18 +259,8 @@
             let numero = line.querySelector('td:nth-child(2) a').innerText;
             let ed = line.querySelector('td:nth-child(3)').innerText;
             let descricao = line.querySelector('td:nth-child(4)').innerText;
-            /* let cargaAtual = line.querySelector('td:nth-child(5)').innerText;
-        let cargaContabil = line.querySelector('td:nth-child(6)').innerText;
-        let sala = line.querySelector('td:nth-child(7)').innerText;
-        let rotulos = line.querySelector('td:nth-child(8)').innerText;
-        let dataEntrada = line.querySelector('td:nth-child(9)').innerText;
-        let dataCarga = line.querySelector('td:nth-child(10)').innerText;
-        let fornecedor = line.querySelector('td:nth-child(11)').innerText;
-        let valor = line.querySelector('td:nth-child(12)').innerText; */
-
             let empty = 'Não disponível';
-
-            // return {numero, ed, descricao, cargaAtual, cargaContabil, sala, rotulos, dataEntrada, dataCarga, fornecedor, valor};
+            
             return {numero, ed, descricao};
 
         } catch (e) {
@@ -353,7 +319,6 @@
 
     let scraper = () => {
         let trsLen = $trs.length - 1;
-        // let trsLen = 5;
 
         let lastItemBeforePause = parseInt(_navigator.getInfo().lastItemIndex) || 0;
         let lastPage = parseInt(_navigator.getInfo().lastPage);
@@ -381,36 +346,16 @@
 
             if (i >= 1) {
                 new Promise(async (resolve, reject) => {
-                    // console.log('inicio ', i, );
-
-                    // let url = $trs[i].children[1].children[0].href;
                     let scrapedItem = {};
-
-                    // $trs[i].classList.add('scanning');
 
                     // pega os valores da tabela
                     let firstScrapInfo = await scrapItemInfo($trs[i]);
 
-                    // se os rows tem a mesma informação a nota é a mesma
-                    /* if (lastScrapedInfo != {} && compareRows(lastScrapedInfo, firstScrapInfo)) {
-                        let last = Object.assign({}, lastScrapedInfo);
-                        scrapedItem = Object.assign(last, firstScrapInfo);
-                    } else {
-                        // Faz a requisição da tela inventario
-                        let detailsInfo = await openInventory(url)
-                        .then((url) => openDetails(url, resolve))
-
-                        scrapedItem = Object.assign(firstScrapInfo, detailsInfo);
-                    } */
-
                     // remover
                     scrapedItem = Object.assign(firstScrapInfo, {});
 
-                    // console.log(scrapedItem);
-
                     lastScrapedInfo = scrapedItem;
 
-                    //saveItem(scrapedItem)
                     if (Object.keys(scrapedItem).length > 0) {
                         itens.push(scrapedItem);
                     }
@@ -430,20 +375,13 @@
 
                     }
 
-                    // console.log('fim', pauseNumber)
-
                     pauseNumber = pauseNumber - 1;
-                    // $trs[i].classList.remove('scanning');
-
-                    // await setTimeout( () => {}, 350);
 
                     await resolve();
 
                 }).then(loop.bind(null, 1));
             }
         }
-
-        // loop()
 
         return {
             pause: function() {
